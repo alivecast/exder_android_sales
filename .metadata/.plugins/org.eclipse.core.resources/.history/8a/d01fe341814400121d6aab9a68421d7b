@@ -245,7 +245,7 @@
 				</dl>
 			</div>
 
-			<div id="nav" class="footer" data-role="footer" data-position="fixed" data-id="tabber">
+			<div class="footer" data-role="footer" data-position="fixed" data-id="tabber">
 				<ul>
 					<li class="tab01 current">
 						<a href="show_item_index.html" data-ajax="false"> <span>販促物一覧</span> </a>
