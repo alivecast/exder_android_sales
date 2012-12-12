@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no;" />
+		<meta charset="utf-8">
+
+		<!-- iPad/iPhone specific css below, add after your main css >
+		<link rel="stylesheet" media="only screen and (max-device-width: 1024px)" href="ipad.css" type="text/css" />
+		<link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="iphone.css" type="text/css" />
+		-->
+
+		<link rel="stylesheet" href="js/jquery.mobile-1.2.0.min.css" type="text/css" />
+		<link rel="stylesheet" href="css/iphone.css" type="text/css" />
+		<link rel="stylesheet" href="css/validate.css" type="text/css" />
+
+		<script type="text/javascript" charset="utf-8" src="js/jquery-1.8.2.min.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/jquery.activity-indicator-1.0.0.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/base64.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/aes.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/cordova.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/main.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/ajaxzip3.js"></script>
+
+		<script type="text/javascript">
+			$(document).bind("mobileinit", function() {
+				// jQuery Mobile フレームワークの設定変更は、ここで行なってください！
+				$.support.cors = true;
+				$.mobile.allowCrossDomainPages = true;
+			});
+
+			$(document).ready(function(){
+				document.addEventListener("deviceready", onDeviceReady, false);
+			});
+
+			function onDeviceReady() {
+				
+				$('#loading').css('display', 'none');
+				
+				$('#nav').css('display', 'block');
+				// 戻るURLの初期設定
+				var before = window.localStorage.getItem('before');
+				window.localStorage.removeItem('before');
+				window.localStorage.setItem('before', 'passcode_new.html');
+				$("#backb").attr("href", before);
+				// バックボタン設定
+				document.addEventListener("backbutton", function(){
+					window.location.href = before;
+				}, false);
+				// メニューボタン設定
+				// メニューボタン設定 (fixedToolbarsの画面タップによる表示非表示を抑制）
+				$("[data-role=header]").fixedtoolbar({ tapToggle: false });
+				$("[data-role=footer]").fixedtoolbar({ tapToggle: false });
+				$('#nav').css('display', 'block');
+				document.addEventListener("menubutton", function(){
+					if ($('#nav').is(':visible')) {
+						$('#nav').css('display', 'none');
+					} else {
+						$('#nav').css('display', 'block');
+					}
+				}, false);
+
+				var get = new Object();
+				var kbn = getLocalStorage('kbn');
+				if(kbn != '' && kbn != null) {
+                  	get['kbn'] = kbn;
+                   
+					console.log("get:" + get['kbn']);
+					$("#kbn").val(get['kbn']);
+					if (get['kbn'] == "buy") {
+						$("#backb").attr("href", "order.html");
+						$("#tab3a").attr("href", "order.html");
+					}
+				}
+				// 設定ファイルの読み込み
+				getonOrdering(onReadyFile);
+
+			}
+
+			function onReadyFile(json) {
+			//	console.log("正常にテキストを読み込みました。passcode_new:cid " + json.customer_id);
+			//	console.log("正常にテキストを読み込みました。passcode_new:key " + json.customer_key);
+			//	console.log("正常にテキストを読み込みました。passcode_new:customer_email_1 " + json.customer_email_1);
+			//	console.log("正常にテキストを読み込みました。passcode_new:iv " + json.iv);
+
+				$("#customer_key").val(json.customer_key);
+				$("#iv").val(json.iv);
+
+				$("#app_ver").val(json.app_ver);
+				$("#app_code").val(json.app_code);
+				$("#url").val(json.url);
+				$("#http").val(json.http);
+				$("#https").val(json.https);
+			}
+			
+			function checkValidate() {
+				var i = 0;
+				//エラーの初期化
+				$("p.error").parent().removeClass("error");
+				$("p.error").remove();
+				
+				//暗証番号のチェック
+				if ($("#customer_pass").val() == "" || !$("#customer_pass").val().match(/^[0-9]{4,16}/)) {
+					$("#customer_pass").parent().append("<p class='error'>半角数字４〜16桁で暗証番号を入力してください。</p>");
+				}
+				//カード番号のチェック
+				if ($("#re_pass").val() != $("#customer_pass").val() || $("#re_pass").val() == "") {
+					$("#re_pass").parent().append("<p class='error'>暗証番号と同じ番号を入力してください。</p>");
+				}
+				//ヒントのチェック
+				if ($("#customer_qes").val() == "") {
+					$("#customer_qes").parent().append("<p class='error'>秘密の質問を入力してください</p>");
+				}
+				//答えのチェック
+				if ($("#customer_ans").val() == "") {
+					$("#customer_ans").parent().append("<p class='error'>秘密の質問の答えを入力してください</p>");
+				}
+				
+				//後処理
+				if ($("p.error").size() > 0) {
+					$("p.error").parent().addClass("error");
+					$(".error:first").focus();
+					return false;
+				} else {
+					savePass();
+				}
+			}
+
+			// 新規登録
+			function savePass() {
+				
+				//loading呼び出し
+				$('#content').css('display', 'none');
+				$('#loading').css('display', 'block');
+				
+				// 暗証番号あり・なしフラグのセット
+				var passFlip = $('#passFlip').val();
+				if(passFlip == 'false'){
+					setLocalStorage('inputPasscode', 'false');
+				} else {
+					setLocalStorage('inputPasscode', 'true');
+				}
+				
+				//console.log("SavePass GO");
+
+				window.localStorage.setItem('passcodeNew_customer_pass', $("#customer_pass").val() );
+				window.localStorage.setItem('passcodeNew_re_pass', $("#re_pass").val() );
+				window.localStorage.setItem('passcodeNew_customer_qes', $("#customer_qes").val() );
+				window.localStorage.setItem('passcodeNew_customer_ans', $("#customer_ans").val() );
+
+				// 設定ファイルの読み込み
+				getonOrdering(savePass2);
+			}
+
+			// 新規登録
+			function savePass2(ordering) {
+
+				$("#customer_pass").val( window.localStorage.getItem('passcodeNew_customer_pass') );
+				$("#re_pass").val( window.localStorage.getItem('passcodeNew_re_pass') );
+				$("#customer_qes").val( window.localStorage.getItem('passcodeNew_customer_qes') );
+				$("#customer_ans").val( window.localStorage.getItem('passcodeNew_customer_ans') );
+
+				window.localStorage.removeItem('passcodeNew_customer_pass');
+				window.localStorage.removeItem('passcodeNew_re_pass');
+				window.localStorage.removeItem('passcodeNew_customer_qes');
+				window.localStorage.removeItem('passcodeNew_customer_ans');
+
+				// 送信
+				var url = ordering.https+'json/receive_pass.php';
+				//alert('receive_pass url: ' + url);
+				var params = ordering;
+				params['customer_pass'] = $("#customer_pass").val();
+				params['customer_qes']  = $("#customer_qes").val();
+				params['customer_ans']  = $("#customer_ans").val();
+
+			//	console.log("customer_pass: " + params['customer_pass']);
+			//	console.log("customer_qes: " + params['customer_qes']);
+			//	console.log("customer_ans: " + params['customer_ans']);
+
+				$.ajax({
+					type: "POST",
+					url: url,
+					data:params,
+					success: function(data){
+						// 戻り値の保存
+					//	console.log("customer_id: " + data.customer_id);
+					//	console.log("customer_pass: " + data.customer_pass);
+						// ファイル登録
+
+						var datalist = ordering;
+						datalist['customer_id']   = data.customer_id;
+						datalist['customer_key']  = data.customer_key;
+						datalist['customer_pass'] = data.customer_pass;
+
+						goHref();
+
+						// ファイル登録
+						var fname = 'ordering';
+						setFile(fname, datalist, passtimeSet, passtimeSet);
+					},
+					error: function(){
+						networdERR(alertCallBack,'登録できませんでした');
+//						return false;
+					}
+				});
+
+			}
+
+			function passtimeSet() {
+				// 暗証番号をもとめるリミット
+			//	console.log("fname2: " + fname2);
+				var psstime = {};
+				psstime['pass_time'] = parseInt(new Date() / 1000);
+				var fname2 = 'passtime';
+				setFile(fname2, psstime, goHref, goHref);
+			}
+
+			function goHref() {
+				var kbn = window.localStorage.getItem('kbn');
+				if (kbn == "buy") {
+					location.href = "order.html";
+				} else if (kbn == "cont") {
+					setLocalStorage('kbn', 'cont');
+				//	location.href="ordering_new.html";
+					location.href="passcode_edit.html";
+				} else {
+					location.href = "setting.html";
+				}
+			}
+
+			// alertCallBack -----------------------------------------------------------------------
+			function alertCallBack() {
+			//	location.reload(true);
+				return false
+			}
+
+			$(document).on("touchstart","input",function(e){
+				$('#nav').css('display', 'none');
+			});
+			
+		</script>
+		<script type="text/javascript" charset="utf-8" src="js/jquery.mobile-1.2.0.min.js"></script>
+
+	</head>
+
+	<body>
+
+		<div data-role="page" data-add-back-btn="false" data-theme="z">
+			<div data-role="header" id="header" data-position="fixed">
+				<h1>暗証番号の設定</h1>
+				<a id="backb" href="setting.html" class="ui-btn-left" data-icon="arrow-l" data-ajax="false"> 戻る </a>
+			</div>
+			<!-- loading -->
+			<div class="loading" data-role="content" id="loading">
+				<div class="loading_box">
+					<p>しばらくおまちください</p>
+					<div id="loadingImg" class="square"></div>
+					<script>
+						$(function() {
+							$('#loadingImg').activity({
+								segments : 12,
+								width : 6,
+								space : 3,
+								length : 20,
+								color : '#FFFFFF',
+								speed : 1.5,
+								align : 'center',
+								valign : 'center'
+							});
+						});
+					</script>
+				</div>
+			</div>
+			<!-- content -->
+			<div id="content" class="cont_passcode_edit" data-role="content">
+
+				<div class="page_description">
+					<div class="txt">
+						ExOrderでご利用する暗証番号を設定します。
+					</div>
+					<br/>
+					<div class="txt" style="color: red;">
+						※ パスワードは忘れないようにしてください。
+						<br />
+						安全の為、登録されたパスワードは、ご本人様でも確認ができなくなります。
+					</div>
+				</div>
+				<!--<form method="post" action="passcode_new.html" id="form_password">-->
+				<div id="form_password">
+					<input type="hidden" id="customer_id" name="customer_id" value=""/>
+					<input type="hidden" id="customer_key" name="customer_key" value=""/>
+					<input type="hidden" id="customer_email_1" name="customer_email_1" value=""/>
+					<input type="hidden" id="iv" name="iv" value=""/>
+					<input type="hidden" id="kbn" name="kbn" />
+
+					<input type="hidden" id="app_ver" name="app_ver" value=""/>
+					<input type="hidden" id="app_code" name="app_code" value=""/>
+					<input type="hidden" id="url" name="url" value=""/>
+					<input type="hidden" id="http" name="http" value=""/>
+					<input type="hidden" id="https" name="https" value=""/>
+
+					<div data-role="fieldcontain" >
+						<ul class="setup_list" data-role="listview">
+
+							<li class="passcode">
+								<label for="customer_pass" class="fieldLabel">暗証番号<span class="form_note">(数字4～16桁)</span></label>
+								<input type="password" autocomplete="off" id="customer_pass" name="customer_pass" class="required inputOn validate" value="" maxlength=16 placeholder="数字4～16桁" />
+							</li>
+
+							<li class="passcode">
+								<label for="re_pass" class="fieldLabel">確認のため再入力<span class="form_note">(数字4～16桁)</span></label>
+								<input type="password" autocomplete="off" id="re_pass" name="re_pass" class="password_confirm required inputOn validate" value="" maxlength=16 placeholder="上と同じ値を入力" />
+							</li>
+
+							<li>
+								万が一パスワードを忘れた場合にそなえ、秘密の質問・回答を設定してください。
+							</li>
+
+							<li class="passcode">
+								<label for="customer_qes" class="fieldLabel">秘密の質問<span class="form_note">(自分だけにわかる質問)</span></label>
+								<input type="text" id="customer_qes" name="customer_qes" class="required inputOn validate" value="" placeholder="例）ペットの名前は？" />
+							</li>
+
+							<li class="passcode">
+								<label for="customer_ans" class="fieldLabel">質問の回答</label>
+								<input type="text" id="customer_ans" name="customer_ans" class="required inputOn validate" value="" placeholder="例）ポチ" />
+							</li>
+							
+							<li>
+								<div class="passFlip">
+									<label for="passFlip">購入時に暗証番号の入力設定</label>
+									<div class="txt" style="color: red;">
+										※ セキュリティを高めるために、ご購入や設定変更の際に、暗証番号を求めるよう設定してください。
+										<br />
+									</div>
+									<select name="passFlip" id="passFlip" data-role="slider">
+										<option value="false">設定しない</option>
+										<option value="true" selected="selected">設定する</option>
+									</select>
+								</div>
+							</li>
+
+							<li class="item_buy_1btn btn_txt_ow">
+								<div>
+									<!--<input type="submit" value="登録する" class="btn_next inputOn"/>-->
+									<a class="btn_next"  data-role="button" onclick="checkValidate();">登録する</a>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+			<!-- nav -->
+<!--
+				<div id="nav" class="footer" data-role="footer" data-position="fixed" data-id="tabber">
+-->
+				<div id="nav" class="footer" data-role="footer" data-id="tabber" data-position="fixed">
+				<ul>
+					<li class="tab01">
+						<a href="show_order.html" data-ajax="false"> <span>注文履歴</span> </a>
+					</li>
+					<li class="tab02">
+						<a href="barcode.html" data-ajax="false"> <span>読み取り</span> </a>
+					</li>
+					<li class="tab03 current">
+						<a id="tab3a" href="setting.html" data-ajax="false"> <span>設定</span> </a>
+					</li>
+				</ul>
+				<!-- /dr-footer -->
+			</div>
+
+		</div>
+	</body>
+</html>
