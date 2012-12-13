@@ -363,3 +363,7 @@ function delFile(fname){
 	window.localStorage.removeItem(fname);
 }
 
+// fnが関数ならそのまま返し、文字列なら関数名にして返す
+function $FN(fn) {
+    return (typeof fn == 'function') ? fn : Function('x', 'return ' + fn);
+}
