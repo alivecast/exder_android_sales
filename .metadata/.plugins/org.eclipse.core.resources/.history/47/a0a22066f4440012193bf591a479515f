@@ -308,16 +308,7 @@ console.log("getFile2: " + JSON.stringify(json));
 			function onOrderOK(json){
 				console.log("onOrderOK");
 				
-				// GET:JSON取得
-				var qr_id = getLocalStorage('qr_id');
-				var order_latitude = null;
-				var order_longitude = null;
-				var get = {
-					qr_id: qr_id,
-					order_latitude: order_latitude,
-					order_longitude: order_longitude
-				}
-				var params = get;
+				var params = getQuery();
 				params['order_time'] = parseInt(new Date() / 1000);
 				params['order_amount'] = 0;
 				itemText = window.localStorage.getItem('order_params');
