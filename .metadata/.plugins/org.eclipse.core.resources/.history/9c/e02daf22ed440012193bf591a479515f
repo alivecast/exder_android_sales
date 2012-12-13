@@ -96,8 +96,6 @@ function $FN(fn) {
 
 // ファイル書込処理(書き込み成功ならokfn関数を実行、失敗ならerrfn関数を実行)
 function setFile(fname, jsonObj, okfn, errfn) {
-	// ファイル名にprifix
-	fname += 'exorderdir';
 	// 暗号化
 	var encText = encAesObj(jsonObj);
 	// localstorageに保存
@@ -116,8 +114,6 @@ function setFile(fname, jsonObj, okfn, errfn) {
 
 // ファイル読み込み処理(読み込み成功ならokfn関数を実行、失敗ならerrfn関数を実行)
 function getFile(fname, okfn, errfn) {
-	// ファイル名にprifix
-	fname += 'exorderdir';
 	var encText = getLocalStorage(fname);
 	if(encText != '' && encText != null){
 		var obj = decAesObj(encText);
@@ -345,25 +341,92 @@ function randPassWord(length) {
 }
 
 function getLocalStorage(fname) {
-	// ファイル名にprifix
-	fname += 'exorderdir';
 	var value = window.localStorage.getItem(fname);
 	return value;
 }
 
 function setLocalStorage(fname, value) {
-	// ファイル名にprifix
-	fname += 'exorderdir';
 	window.localStorage.removeItem(fname);
 	window.localStorage.setItem(fname, value);
 }
-function delFile(fname){
-	// ファイル名にprifix
-	fname += 'exorderdir';
+function delfile(fname){
 	window.localStorage.removeItem(fname);
 }
 
 // fnが関数ならそのまま返し、文字列なら関数名にして返す
 function $FN(fn) {
     return (typeof fn == 'function') ? fn : Function('x', 'return ' + fn);
+}
+// ファイル書込処理(書き込み成功ならokfn関数を実行、失敗ならerrfn関数を実行)
+function setFileApi(fname, text, okfn, errfn) {
+	window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, write, setNG);
+	function write(fileSystem) {
+		fileSystem.root.getFile(fname, {
+			create : true,
+			exclusive : false
+		}, function(fileEntry) {
+			fileEntry.createWriter(function(writer) {
+				writer.onwrite = function(evt) {
+					console.log("FileApi 書き込み成功");
+				};
+				writer.onerror = function(evt) {
+					console.log('FileApi 書き込みに失敗' + evt.toString());
+				};
+				// 内容を書き込み
+            	writer.write(text);
+                callback = $FN(okfn);
+                return callback(text);
+			}, setNG);
+		}, setNG);
+	}
+	function setNG(error){
+		console.log("ファイルを書き込めませんでした。");
+		callback = $FN(errfn);
+		return callback()
+	}
+}
+
+// ファイル読み込み処理(読み込み成功ならokfn関数を実行、失敗ならerrfn関数を実行)
+function getFileApi(fname,okfn,errfn) {
+	var text = {};
+	window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, read, noFileApi);
+	function read(fileSystem) {
+		fileSystem.root.getFile(fname, {}, function(fileEntry) {
+			fileEntry.file(function(file) {
+				var reader = new FileReader();
+				reader.onloadend = function(evt) {
+					// ここに読み込み完了後の処理を書く
+					text = evt.target.result;
+                    console.log("FileApi 正常にファイルを読み込みました。");
+                    callback = $FN(okfn);
+					return callback(text);
+				};
+				reader.readAsText(file, "utf-8");
+			}, noFileApi)
+		}, noFileApi);
+	}
+	function noFileApi(error){
+		console.log("ファイルを読み込めませんでした。");
+		callback = $FN(errfn);
+		return callback()
+	}
+
+}
+
+// ファイル削除
+function delFileApi(fname) {
+	window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem) {
+		fileSystem.root.getFile(fname, {
+			create : false
+		}, function(fileEntry) {
+			fileEntry.remove(function() {
+				console.log('File removed:' + fname);
+			}, fail);
+		}, fail);
+	}, fail);
+}
+
+// ファイル操作　error処理
+function fail(error) {
+	console.log("ファイル処理失敗: " + error.code);
 }

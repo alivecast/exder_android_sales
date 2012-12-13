@@ -345,15 +345,11 @@ function randPassWord(length) {
 }
 
 function getLocalStorage(fname) {
-	// ファイル名にprifix
-	fname += 'exorderdir';
 	var value = window.localStorage.getItem(fname);
 	return value;
 }
 
 function setLocalStorage(fname, value) {
-	// ファイル名にprifix
-	fname += 'exorderdir';
 	window.localStorage.removeItem(fname);
 	window.localStorage.setItem(fname, value);
 }
