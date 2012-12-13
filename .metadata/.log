@@ -2562,3 +2562,6 @@ Contains: fatal: pathspec 'CaptureDirectorActivity/bin/capturedirectoractivity.j
 !MESSAGE Problems encountered while deleting resources.
 !SUBENTRY 2 com.aptana.git.core 4 128 2012-12-13 16:24:35.004
 !MESSAGE fatal: pathspec 'CaptureDirectorActivity/bin/capturedirectoractivity.jar' did not match any files
+
+!ENTRY com.android.ide.eclipse.adt 1 0 2012-12-13 16:36:41.110
+!MESSAGE No valid Android XML Editor Delegate found for file /exorder.director/lint.xml [Res null, type null]
