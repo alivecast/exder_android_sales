@@ -349,9 +349,6 @@ function setLocalStorage(fname, value) {
 	window.localStorage.removeItem(fname);
 	window.localStorage.setItem(fname, value);
 }
-function delfile(fname){
-	window.localStorage.removeItem(fname);
-}
 
 // fnが関数ならそのまま返し、文字列なら関数名にして返す
 function $FN(fn) {
