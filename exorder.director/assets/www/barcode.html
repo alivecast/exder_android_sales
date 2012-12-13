@@ -30,22 +30,10 @@
 				window.plugins.barcodeScanner.scan(function(result) {
 					// キャンセル
 					if (result.cancelled) {
-
-				        // アラート
-				        var message = 'QRコード読み取りを中止しました';
-						var title = 'キャンセル';
-						var button = 'OK';
-						navigator.notification.alert(
-							message, 
-							function(){
-								// move
-				        		window.location.href = "show_item_index.html";
-							}, 
-							title,
-							button
-						 );
-				        
-                    // 読み取り
+						
+						window.location.href = "show_item_index.html";
+						
+					// 読み取り
 					} else {
 						// 読み取り成功
 						
@@ -85,8 +73,6 @@
 
 			// Barcode 読み込み成功　-------------------------------------------------------------
 			function scannerSuccess(result) {
-				// test
-				// result = 'http://exorder.jp/2001010000040000028101';
             	
 				// qr_id抽出
 				cutProtocole = result.replace(/http:\/\/|https:\/\//, "");

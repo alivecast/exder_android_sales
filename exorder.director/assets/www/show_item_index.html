@@ -117,7 +117,7 @@
 			// 注文詳細
 			function show_item_index(index){
 				var orders = JSON.parse(getLocalStorage('show_order_index'));
-				setLocalStorage('qr_id', orders[index].qr_id);
+				setLocalStorage('qr_id', orders[parseInt(index)].qr_id);
 				window.location.href = 'show_item.html';
 			}
 		
