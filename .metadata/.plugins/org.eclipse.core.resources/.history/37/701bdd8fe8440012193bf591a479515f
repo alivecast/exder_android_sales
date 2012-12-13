@@ -29,6 +29,7 @@
 				// 戻るURLの初期設定
 				var before = getLocalStorage('before');
 				setLocalStorage('before', 'barcode.html');
+				$("#backb").attr("href", 'show_item_index.html');
 				// バックボタン設定
 				document.addEventListener("backbutton", function(){
 					window.location.href = 'show_item_index.html';

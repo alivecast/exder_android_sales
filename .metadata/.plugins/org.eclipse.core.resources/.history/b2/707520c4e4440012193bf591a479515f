@@ -26,33 +26,29 @@
 			});
 
 			function onDeviceReady() {
-				
+
 				// 戻るURLの初期設定
 				var before = getLocalStorage('before');
 				$("#backb").attr("href", before);
 				// バックボタン設定
-				document.addEventListener("backbutton", function(){
+				document.addEventListener("backbutton", function() {
 					window.location.href = before;
 				}, false);
 				// メニューボタン設定 (fixedToolbarsの画面タップによる表示非表示を抑制）
-				$("[data-role=header]").fixedtoolbar({ tapToggle: false });
-				$('#nav').css('display', 'none');
-				document.addEventListener("menubutton", function(){
-					if ($('#nav').is(':visible')) {
-						$('#nav').css('display', 'none');
-					} else {
-						$('#nav').css('display', 'block');
-					}
+				$("[data-role=header]").fixedtoolbar({
+					tapToggle : false
+				});
+				document.addEventListener("menubutton", function() {
 				}, false);
 
 				var get = new Object();
 				get.page = getLocalStorage('page');
 				console.log("page:" + get['page']);
-				var filename = "http://exorder.jp/app/phonegap/company01/" + get['page'];
+
+				var filename = "http://exorder.jp/app/phonegap/" + get['page'];
 
 				// html取得
 				getIndex(filename);
-
 				function getIndex(filename) {
 					xmlhttp = new XMLHttpRequest();
 					if (xmlhttp) {
@@ -65,7 +61,7 @@
 				function check() {
 					if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
 						document.getElementById("htmlData").innerHTML = xmlhttp.responseText;
-						//console.log(xmlhttp.responseText);
+						console.log(xmlhttp.responseText);
 					}
 				}
 
@@ -78,34 +74,12 @@
 	</head>
 
 	<body>
-
 		<div data-role="page" data-add-back-btn="false">
-
 			<div data-role="header" id="header" data-position="fixed">
 				<h1 id="title">使い方</h1>
 				<a id="backb" href="#" class="ui-btn-left" data-icon="arrow-l" data-direction="reverse" data-ajax="false"> 戻る </a>
 			</div>
-
-			<div data-role="content">
-				<div id="htmlData"></div>
-			</div>
-
-			<!-- nav -->
-			<div id="nav" class="footer" data-role="footer" data-position="fixed" data-id="tabber">
-				<ul>
-					<li class="tab01">
-						<a href="show_item_index.html" data-ajax="false"> <span>販促物一覧</span> </a>
-					</li>
-					<li class="tab02">
-						<a href="barcode.html" data-ajax="false"> <span>読み取り</span> </a>
-					</li>
-					<li class="tab03">
-						<a href="logout.html" data-ajax="false"> <span>ログアウト</span> </a>
-					</li>
-				</ul>
-				<!-- /dr-footer -->
-			</div>
-
+			<div data-role="content"  id="htmlData"></div>
 		</div>
 	</body>
 </html>
