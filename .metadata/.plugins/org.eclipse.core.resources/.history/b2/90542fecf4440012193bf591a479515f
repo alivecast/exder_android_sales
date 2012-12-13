@@ -320,7 +320,7 @@ console.log("getFile2: " + JSON.stringify(json));
 				var params = get;
 				params['order_time'] = parseInt(new Date() / 1000);
 				params['order_amount'] = 0;
-				itemText = getLocalStorage('order_params');
+				itemText = window.localStorage.getItem('order_params');
 				item = JSON.parse(itemText);
 				params['item_version'] = item['item_version'];
 				params['uid'] = json.uid;
