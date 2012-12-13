@@ -5,10 +5,16 @@
 		<item value="false" key="isRegEx"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="wholeword"/>
-		<item value="?" key="selection"/>
+		<item value="Item(" key="selection"/>
 		<list key="findhistory">
+			<item value="Item("/>
+			<item value="LocalStorage(&apos;order_params&apos;)"/>
+			<item value="getQuery"/>
+			<item value="order()"/>
+			<item value="onOrderOK"/>
 			<item value="?"/>
-			<item value="show_order_index"/>
+			<item value="localstorage"/>
+			<item value="delfile"/>
 		</list>
 	</section>
 </section>

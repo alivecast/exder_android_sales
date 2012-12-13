@@ -228,6 +228,8 @@
 					</div>
 				</div>
 
+				<form method="post" action="" id="form_password">
+
 					<div data-role="fieldcontain" >
 						<ul class="setup_list" data-role="listview">
 
@@ -252,6 +254,7 @@
 							</li>
 						</ul>
 					</div>
+				</form>
 			</div>
 		</div>
 	</body>

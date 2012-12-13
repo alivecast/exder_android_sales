@@ -1,2 +1,2 @@
-FIND_BAR_DECORATOR_FIND_ENTRIES=\#\n\#Thu Dec 13 02\:30\:52 JST 2012\n1\=show_order_index\n0\=?\n
+FIND_BAR_DECORATOR_FIND_ENTRIES=\#\n\#Thu Dec 13 18\:58\:08 JST 2012\n8\=shippingCost\n7\=delfile\n6\=localstorage\n5\=?\n4\=onOrderOK\n3\=order()\n2\=getQuery\n1\=LocalStorage('order_params')\n0\=Item(\n
 eclipse.preferences.version=1
