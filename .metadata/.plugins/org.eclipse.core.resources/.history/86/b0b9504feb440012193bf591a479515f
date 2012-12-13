@@ -15,9 +15,11 @@
 		<link rel="stylesheet" href="css/iphone.css" type="text/css" />
 
 		<script type="text/javascript" charset="utf-8" src="js/jquery-1.8.2.min.js"></script>
+
 		<script type="text/javascript" charset="utf-8" src="js/base64.js"></script>
 		<script type="text/javascript" charset="utf-8" src="js/aes.js"></script>
 		<script type="text/javascript" charset="utf-8" src="js/cordova.js"></script>
+
 		<script type="text/javascript" charset="utf-8" src="js/main.js"></script>
 		<script type='text/javascript' charset="utf-8" src="js/jquery.validate.min.js"></script>
 
@@ -322,7 +324,7 @@
 			</div>
 
 			<!-- nav -->
-			<div id="nav" class="footer" data-role="footer" data-position="fixed" data-id="tabber">
+			<div class="footer" data-role="footer" data-position="fixed" data-id="tabber">
 				<ul>
 					<li class="tab01 ">
 						<a href="show_item_index.html" data-ajax="false"> <span>販促物一覧</span> </a>
