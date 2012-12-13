@@ -50,6 +50,7 @@
 				delFile(fname);
 
 				// navigator.app.exitApp();
+
 				window.location.href = "index.html";
 				return false;
 			}
