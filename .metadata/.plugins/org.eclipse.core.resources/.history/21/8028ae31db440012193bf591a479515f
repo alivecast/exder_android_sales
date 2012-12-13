@@ -79,6 +79,8 @@
 				var qr_id = cutProtocole.replace(/www.exorder.jp\/|exorder.jp\//, "");
 				console.log("scannerSuccess: qr_id: " + qr_id);
 				setLocalStorage('qr_id', String(qr_id));
+				setLocalStorage('order_latitude', null);
+				setLocalStorage('order_longitude', null);
 				window.location.href = 'show_item.html';
 				
 			}

@@ -64,9 +64,9 @@
 			function LoginOK(json) {
 
 				// GETでJSON取得
-				var qr_id = getLocalStorage('qr_id');
-				var order_latitude = null;
-				var order_longitude = null;
+				var qr_id = setLocalStorage('qr_id');
+				var order_latitude = setLocalStorage('order_latitude');
+				var order_longitude = setLocalStorage('order_longitude');
 				var get = {
 					qr_id: qr_id,
 					order_latitude: order_latitude,
