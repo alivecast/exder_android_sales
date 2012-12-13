@@ -96,8 +96,6 @@ function $FN(fn) {
 
 // ファイル書込処理(書き込み成功ならokfn関数を実行、失敗ならerrfn関数を実行)
 function setFile(fname, jsonObj, okfn, errfn) {
-	// ファイル名にprifix
-	fname += 'exorderdir';
 	// 暗号化
 	var encText = encAesObj(jsonObj);
 	// localstorageに保存
@@ -116,8 +114,6 @@ function setFile(fname, jsonObj, okfn, errfn) {
 
 // ファイル読み込み処理(読み込み成功ならokfn関数を実行、失敗ならerrfn関数を実行)
 function getFile(fname, okfn, errfn) {
-	// ファイル名にprifix
-	fname += 'exorderdir';
 	var encText = getLocalStorage(fname);
 	if(encText != '' && encText != null){
 		var obj = decAesObj(encText);
