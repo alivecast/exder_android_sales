@@ -35,13 +35,6 @@
 			});
 
 			function onDeviceReady() {
-				
-				// 戻るURLの初期設定
-				setLocalStorage('before', 'index.html');
-				// バックボタン設定
-				document.addEventListener("backbutton", function(){
-					window.location.href = before;
-				}, false);
 
 				// URLの取得
 				$.ajax({
