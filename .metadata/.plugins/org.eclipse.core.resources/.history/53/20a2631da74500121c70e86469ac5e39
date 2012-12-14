@@ -91,7 +91,6 @@ console.log("getFile2: " + JSON.stringify(json));
 						app_code: json.app_code,
 						app_ver: json.app_ver,
 						uid: json.uid,
-						act_key: json.act_key,
 						customer_id: json.customer_id,
                         customer_key: json.customer_key,
                         customer_mail_1: json.customer_mail_1
@@ -108,6 +107,7 @@ console.log("getFile2: " + JSON.stringify(json));
 							$('#loading').css('display', 'none');
 							$('#content').css('display', 'block');
 							// 商品詳細
+							console.log(JSON.stringify(data));
 							// if (data != "" && data != {} && data != null) {
 							if (data.item_name) {
 								// 商品情報をセット
