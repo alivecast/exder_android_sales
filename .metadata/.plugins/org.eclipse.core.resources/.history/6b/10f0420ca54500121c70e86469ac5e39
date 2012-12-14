@@ -108,7 +108,6 @@ console.log("getFile2: " + JSON.stringify(json));
 							$('#content').css('display', 'block');
 							// 商品詳細
 							// if (data != "" && data != {} && data != null) {
-								alert(data.item_name);
 							if (data.item_name != '') {
 								// 商品情報をセット
 								setData(data);
