@@ -178,27 +178,11 @@
 			
 	//	if (s.get(0).adj) {
 		
-			// 1211214 ogawa createStyleSheet対応
-			if (document.createStyleSheet === undefined) {
-				document.createStyleSheet = function(url) {
-					if (url) {
-						var el = document.createElement('link');
-						el.rel = 'stylesheet';
-						el.href = url;
-					} else {
-						var el = document.createElement('style');
-					}
-					el.type = 'text/css';
-					document.getElementsByTagName('head')[0].appendChild(el);
-					return el.sheet;
-				};
-			}
-		
 			// VML support detected. Insert CSS rules for group, shape and stroke.
-			var sheet = document.createStyleSheet();
-			$.each(['group', 'shape', 'stroke'], function() {
-				sheet.addRule(this, "behavior:url(#default#VML);");
-			});
+	//		var sheet = document.createStyleSheet();
+	//		$.each(['group', 'shape', 'stroke'], function() {
+	//			sheet.addRule(this, "behavior:url(#default#VML);");
+	//		});
 			
 			// Rendering strategy that creates a VML tree. 
 			 
