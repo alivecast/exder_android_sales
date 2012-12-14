@@ -88,6 +88,9 @@ console.log("getFile2: " + JSON.stringify(json));
                     var url = json.http+'json/send_item_info.php';
 					var hash = {
 						qr_id: get.qr_id,
+						app_code: json.app_code,
+						app_ver: json.app_ver,
+						uid: json.uid,
 						customer_id: json.customer_id,
                         customer_key: json.customer_key,
                         customer_mail_1: json.customer_mail_1
