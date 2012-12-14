@@ -224,7 +224,6 @@
 
 			<div data-role="header" id="header" style="display:none;" class="loginM">
 				<h1>ログイン</h1>
-				<a href="loading.html" class="ui-btn-left" data-icon="arrow-l" data-ajax="false">loading</a>
 				<a href="website.html" class="ui-btn-right" data-icon="info" data-direction="reverse" data-ajax="false">使い方</a>
 			</div>
 
