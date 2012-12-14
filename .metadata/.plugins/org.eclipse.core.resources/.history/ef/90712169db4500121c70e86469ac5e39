@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no;" />
+		<meta charset="utf-8">
+
+		<!-- iPad/iPhone specific css below, add after your main css >
+		<link rel="stylesheet" media="only screen and (max-device-width: 1024px)" href="ipad.css" type="text/css" />
+		<link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="iphone.css" type="text/css" />
+		-->
+		<link rel="stylesheet" href="css/iphone.css" type="text/css" />
+
+		<script type="text/javascript" charset="utf-8" src="js/jquery-1.8.2.min.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/base64.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/aes.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/main.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/company.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/cordova.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/spin.min.js"></script>
+
+		<script type="text/javascript">
+			$(document).bind("mobileinit", function() {
+				// jQuery Mobile フレームワークの設定変更は、ここで行なってください！
+				$.support.cors = true;
+				$.mobile.allowCrossDomainPages = true;
+			});
+
+			$(document).ready(function() {
+				document.addEventListener("deviceready", onDeviceReady, false);
+			});
+
+			function onDeviceReady() {
+
+				// 戻るURLの初期設定
+				var before = getLocalStorage('before');
+				// バックボタン設定
+				document.addEventListener("backbutton", function() {
+					window.location.href = before;
+				}, false);
+				// メニューボタン設定 (fixedToolbarsの画面タップによる表示非表示を抑制）
+				document.addEventListener("menubutton", function() {
+
+				}, false);
+
+				var fname = 'setting';
+				delFile(fname);
+
+				// navigator.app.exitApp();
+				window.location.href = "index.html";
+				return false;
+			}
+		</script>
+		<script type="text/javascript" charset="utf-8" src="js/jquery.mobile-1.2.0.min.js"></script>
+
+	</head>
+
+	<body>
+		<div data-role="page" data-add-back-btn="false" data-theme="z">
+			<!-- loading -->
+			<div class="loading" data-role="content" id="loading">
+				<div class="loading_box">
+					<p>
+						しばらくおまちください
+					</p>
+					<div id="loadingImg" class="square"></div>
+					<script>
+					/*	var opts = {
+							lines : 15, // The number of lines to draw
+							length : 28, // The length of each line
+							width : 5, // The line thickness
+							radius : 14, // The radius of the inner circle
+							corners : 1, // Corner roundness (0..1)
+							rotate : 0, // The rotation offset
+							color : '#fff', // #rgb or #rrggbb
+							speed : 1, // Rounds per second
+							trail : 60, // Afterglow percentage
+							shadow : false, // Whether to render a shadow
+							hwaccel : false, // Whether to use hardware acceleration
+							className : 'spinner', // The CSS class to assign to the spinner
+							zIndex : 2e9//, // The z-index (defaults to 2000000000)
+						//	top : 'auto', // Top position relative to parent in px
+						//	left : 'auto' // Left position relative to parent in px
+						};
+						var target = document.getElementById('loadingImg');
+						var spinner = new Spinner(opts).spin(target);
+					*/
+					</script>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
+

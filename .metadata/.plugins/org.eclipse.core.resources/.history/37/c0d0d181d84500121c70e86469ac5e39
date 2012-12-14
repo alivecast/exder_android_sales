@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no;" />
+		<meta charset="utf-8">
+
+		<!-- iPad/iPhone specific css below, add after your main css >
+		<link rel="stylesheet" media="only screen and (max-device-width: 1024px)" href="ipad.css" type="text/css" />
+		<link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="iphone.css" type="text/css" />
+		-->
+
+		<script type="text/javascript" charset="utf-8" src="js/jquery-1.8.2.min.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/base64.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/cordova.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/barcodescanner.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/main.js"></script>
+
+
+		<script type="text/javascript">
+
+			$(document).ready(function(){
+				document.addEventListener("deviceready", onDeviceReady, false);
+			});
+
+			function onDeviceReady() {
+				
+				// 戻るURLの初期設定
+				var before = getLocalStorage('before');
+				setLocalStorage('before', 'barcode.html');
+				// バックボタン設定
+				document.addEventListener("backbutton", function(){
+					window.location.href = 'show_item_index.html';
+				}, false);
+
+				// barcode読み取り
+				window.plugins.barcodeScanner.scan(function(result) {
+					// キャンセル
+					if (result.cancelled) {
+						
+						window.location.href = "show_item_index.html";
+						
+					// 読み取り
+					} else {
+						// 読み取り成功
+						
+						// speed-orderを含むか判定
+						if(result.text.match(/www.exorder.jp|exorder.jp/i)){
+							
+							// ShotOrder
+							scannerSuccess(result.text);
+							
+						} else {
+							
+							// ShotOrder以外
+
+					        // アラート
+					        var message = 'このQRコードは、ExOrderのQRコードではありません。';
+							var title   = 'QRコード相違';
+							var button  = 'OK';
+							navigator.notification.alert(
+								message, 
+								function(){
+									// move
+									var encText = encBase64(result.text);
+									location.href = "barcode.html";
+							        return false;
+								}, 
+								title,
+								button
+							);
+						}
+
+					}
+				}, function(error) {
+					// 読み取り失敗
+					scannerFailure(error);
+				});
+			}
+
+			// Barcode 読み込み成功　-------------------------------------------------------------
+			function scannerSuccess(result) {
+            	
+				// qr_id抽出
+				cutProtocole = result.replace(/http:\/\/|https:\/\//, "");
+				var qr_id = cutProtocole.replace(/www.exorder.jp\/|exorder.jp\//, "");
+				console.log("scannerSuccess: qr_id: " + qr_id);
+				setLocalStorage('qr_id', String(qr_id));
+				window.location.href = 'show_item.html';
+				
+			}
+
+			// Barcode 読み込み失敗　---------------------------------------------------------------
+			function scannerFailure(message) {
+				// console.log("scannerFailure: message: " + message)
+				
+				var message = 'もう一度QRコードを撮影してください';
+				var title = 'QRコードの読み取りに失敗しました';
+				var button = 'OK';
+				navigator.notification.alert(
+					message, 
+					function(){
+						
+					}, 
+					title,
+					button
+				 );
+
+			}
+			
+			// alertCallBack -----------------------------------------------------------------------
+			function alertCallBack() {
+				window.location.href = 'barcode.html';
+			}
+
+// }
+		</script>
+	</head>
+
+	<body>
+
+	</body>
+</html>
