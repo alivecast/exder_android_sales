@@ -36,7 +36,7 @@
 				}, false);
 				// メニューボタン設定 (fixedToolbarsの画面タップによる表示非表示を抑制）
 				$("[data-role=header]").fixedtoolbar({ tapToggle: false });
-				$('#nav').css('display', 'none');
+				$('#nav').css('display', 'block');
 				document.addEventListener("menubutton", function(){
 					if ($('#nav').is(':visible')) {
 						$('#nav').css('display', 'none');

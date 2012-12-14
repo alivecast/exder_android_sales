@@ -32,6 +32,26 @@
 			});
 
 			function onDeviceReady(){
+				
+				// 戻るURLの初期設定
+				var before = getLocalStorage('before');
+				//setLocalStorage('before', 'passcode_input.html');
+				$("#backb").attr("href", before);
+				// バックボタン設定
+				document.addEventListener("backbutton", function(){
+					window.location.href = before;
+				}, false);
+				// メニューボタン設定 (fixedToolbarsの画面タップによる表示非表示を抑制）
+				$("[data-role=header]").fixedtoolbar({ tapToggle: false });
+				$('#nav').css('display', 'block');
+				document.addEventListener("menubutton", function(){
+					if ($('#nav').is(':visible')) {
+						$('#nav').css('display', 'none');
+					} else {
+						$('#nav').css('display', 'block');
+					}
+				}, false);
+				
 				var fname = 'setting';
 				getFile(fname,onReadyFile,goErr);
 			}
@@ -251,7 +271,7 @@ $(function(){
             </div>
 
 			<!-- nav -->
-			<div class="footer" data-role="footer" data-position="fixed" data-id="tabber">
+			<div id="nav" class="footer" data-role="footer" data-position="fixed" data-id="tabber">
 				<ul>
 					<li class="tab01">
 						<a href="show_item_index.html" data-ajax="false"> <span>販促物一覧</span> </a>
