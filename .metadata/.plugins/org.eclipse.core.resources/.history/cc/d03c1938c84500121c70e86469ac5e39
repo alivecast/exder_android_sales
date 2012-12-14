@@ -193,7 +193,7 @@
 
 		</script>
 		<script type="text/javascript" charset="utf-8" src="js/jquery.mobile-1.2.0.min.js"></script>
-		<script type="text/javascript" charset="utf-8" src="js/spin.min.js"></script>
+
 	</head>
 
 	<body>

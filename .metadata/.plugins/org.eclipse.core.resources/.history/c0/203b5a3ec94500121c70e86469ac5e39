@@ -39,7 +39,7 @@
 			<div class="loading" data-role="content" id="loading">
 				<div class="loading_box">
 					<p>しばらくおまちください</p>
-					<div id="loadingImg"></div>
+					<div id="loadingImg" class="square"></div>
 					<script>
 						var opts = {
 							lines : 15, // The number of lines to draw
@@ -55,8 +55,8 @@
 							hwaccel : false, // Whether to use hardware acceleration
 							className : 'spinner', // The CSS class to assign to the spinner
 							zIndex : 2e9, // The z-index (defaults to 2000000000)
-							top : 'auto', // Top position relative to parent in px
-							left : 'auto' // Left position relative to parent in px
+							top : 50, // Top position relative to parent in px
+							left : 100 // Left position relative to parent in px
 						};
 						var target = document.getElementById('loadingImg');
 						var spinner = new Spinner(opts).spin(target);

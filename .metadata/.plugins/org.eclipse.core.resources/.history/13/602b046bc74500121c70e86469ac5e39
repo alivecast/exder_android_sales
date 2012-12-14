@@ -13,7 +13,8 @@
 		<script type="text/javascript" charset="utf-8" src="js/company.js"></script>
 		<script type="text/javascript" charset="utf-8" src="js/cordova.js"></script>
 		<script type="text/javascript" charset="utf-8" src="js/spin.min.js"></script>
-		
+
+
 		<script type="text/javascript">
 			$(document).bind("mobileinit", function() {
 				// jQuery Mobile フレームワークの設定変更は、ここで行なってください！
@@ -29,8 +30,6 @@
 				
 			}
 		</script>
-		<script type="text/javascript" charset="utf-8" src="js/jquery.mobile-1.2.0.min.js"></script>
-		
 	</head>
 	
 	<body>
@@ -39,16 +38,17 @@
 			<div class="loading" data-role="content" id="loading">
 				<div class="loading_box">
 					<p>しばらくおまちください</p>
-					<div id="loadingImg"></div>
+					<div id="loadingImg" class="square"></div>
 					<script>
+						// spin setting
 						var opts = {
 							lines : 15, // The number of lines to draw
 							length : 28, // The length of each line
-							width : 5, // The line thickness
+							width : 8, // The line thickness
 							radius : 14, // The radius of the inner circle
 							corners : 1, // Corner roundness (0..1)
 							rotate : 0, // The rotation offset
-							color : '#fff', // #rgb or #rrggbb
+							color : '#666', // #rgb or #rrggbb
 							speed : 1, // Rounds per second
 							trail : 60, // Afterglow percentage
 							shadow : false, // Whether to render a shadow
