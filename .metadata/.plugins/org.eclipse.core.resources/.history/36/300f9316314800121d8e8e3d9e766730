@@ -9,7 +9,7 @@
 		<!--<link rel="stylesheet" href="css/jqmobile-patch.css" type="text/css" />-->
 		<link rel="stylesheet" href="js/jquery.mobile-1.2.0.min.css" type="text/css" />
 		<link rel="stylesheet" href="css/iphone.css" type="text/css" />
-
+		
 		<script type="text/javascript" charset="utf-8" src="js/jquery-1.8.2.min.js"></script>
 		<script type="text/javascript" charset="utf-8" src="js/base64.js"></script>
 		<script type="text/javascript" charset="utf-8" src="js/aes.js"></script>
@@ -20,7 +20,7 @@
 
 		<script type="text/javascript">
 			console.log("Start show_item");
-
+			
 			$(document).bind("mobileinit", function() {
 				// jQuery Mobile フレームワークの設定変更は、ここで行なってください！
 				$.support.cors = true;
@@ -33,10 +33,10 @@
 
 			// 設定ファイル読み込み
 			function onDeviceReady() {
-
+				
 				$('#loading').css('display', 'block');
 				$('#content').css('display', 'none');
-
+				
 				// 戻るURLの初期設定
 				//var before = getLocalStorage('before');
 				setLocalStorage('before', 'show_item.html');
@@ -55,7 +55,7 @@
 						$('#nav').css('display', 'block');
 					}
 				}, false);
-
+				
 				companyGetSetting(SettingOK);
 			}
 
@@ -78,12 +78,12 @@
 					order_longitude: order_longitude
 				}
 				console.log("getQuery: " + JSON.stringify(get));
-
+				
 				fname = 'order';
 				setFile(fname, get);
 
 				sendData(get);
-
+				
 				return false;
 
 				// 商品情報を取得 -----------------------------------------------------------------------
@@ -103,7 +103,7 @@ console.log("getFile2: " + JSON.stringify(json));
 					};
 
 					console.log("url: " + url);
-
+					
 					$.ajax({
 						type: "POST",
 						url: url,
@@ -131,12 +131,12 @@ console.log("getFile2: " + JSON.stringify(json));
 					});
 
 				}
-
+				
 				// errorPostCallBack -----------------------------------------------------------------------
 				function errorPostCallBack() {
 					window.location.href = 'index.html';
 				}
-
+				
 				// alertCallBack2 -----------------------------------------------------------------------
 				function alertCallBack2() {
 					window.location.href = 'barcode.html';
@@ -145,7 +145,7 @@ console.log("getFile2: " + JSON.stringify(json));
 				// 商品情報をセット
 				function setData(params,get) {
 					console.log("setData : "+params['item_name']);
-
+					
 					setLocalStorage('order_params', JSON.stringify(params));
 					// 商品名
 					$("#item_name").text(params['item_name']);
@@ -250,11 +250,11 @@ console.log("getFile2: " + JSON.stringify(json));
 					//	$('.item_buy_button_stop').css('display', 'block');
 
 					}else{
-
+						
 						item_stock_sts = '<p class="ico ico_onlyRemaining">販売中</p>';
 					//	$('.item_buy_button_stop').css('display', 'block');
 					}
-
+					
 					if (item_stock_sts != '') {
 						document.getElementById("item_stock_sts").innerHTML = item_stock_sts;
 					}
@@ -304,28 +304,28 @@ console.log("getFile2: " + JSON.stringify(json));
 					}
 
 					$('.item_summary').listview();
-
+					
 				}
 
 			} // onSettingOk
 
-
+			
 			function onSettingNG(){
 				loginErr('ログインＩＤまたはパスワードが変更されました。再度、ログインを行ってください');
 			}
-
+			
 			function loginErr(message){
 				title = '設定エラー';
 				button = 'OK';
 				navigator.notification.alert(message, alertCallBack(), title, button);
 				return false;
 			}
-
+			
 			// alertCallBack -----------------------------------------------------------------------
 			function alertCallBack() {
 				window.location.href = 'index.html';
 			}
-
+				
 			function changePrice() {
 				var tototo2 = $('#order_amount option:selected').attr('rel') + '円(税込)';
 				$("#total").text(tototo2);
@@ -354,10 +354,10 @@ console.log("getFile2: " + JSON.stringify(json));
 				var fname = 'setting';
 				getFile(fname,onOrderOK,onSettingNG);
 			}
-
+			
 			function onOrderOK(json){
 				console.log("onOrderOK");
-
+				
 				// GET:JSON取得
 				var qr_id = getLocalStorage('qr_id');
 				var order_latitude = null;
@@ -376,17 +376,17 @@ console.log("getFile2: " + JSON.stringify(json));
 				params['uid'] = json.uid;
 				// アクティベート用 AC ITOU
 				window.location.href = "act.html";
-
+				
 				var fname = 'order';
 				setFile(fname, params);
 
 			}
-
+			
 			// 説明ページ
 			setLocalStorage('page', 'tr_company.html');
 
 		</script>
-
+		
 		<script type="text/javascript" charset="utf-8" src="js/jquery.mobile-1.2.0.min.js"></script>
 
 	</head>
@@ -430,11 +430,11 @@ console.log("getFile2: " + JSON.stringify(json));
 				</div>
 			</div>
 
-
+			
 			<!-- content -->
 			<div class="cont_itemDetail" data-role="content" id="content" style="display:none;">
 				<div id="item_version_tete" ></div>
-
+				
 				<!-- 商品情報変更 -->
 				<div id="data_change"></div>
 				<ul class="item_summary" data-role="listview">
@@ -467,7 +467,7 @@ console.log("getFile2: " + JSON.stringify(json));
 							</div>
 						</div>
 					</li>
-
+					
 					<!--<% end %>-->
 				</ul>
 
@@ -486,7 +486,7 @@ console.log("getFile2: " + JSON.stringify(json));
 					<!-- 商品説明 -->
 					<li class="shop_contact" id="item_limit">販売期間：<span id="item_limit_start"></span>から<span id="item_limit_end"></span></li>
 					<li class="shop_contact">在庫：<span id="item_stock"></span></li>
-
+					
 					<li class="item_buy_1btn" id="item_buy_3">
 						<div class="item_buy btn_txt_ow item_buy_button item_buy_button_act" >
 							<p class="txt" style="color:#red;">*上記情報で間違いはないですか？<br />間違いなければ、下記ボタンをタップしてください</p>
@@ -525,7 +525,7 @@ console.log("getFile2: " + JSON.stringify(json));
 				<h1>特定商取引法に基づく表示</h1>
 				<a href="#page_itemDetail" class="ui-btn-left" data-icon="arrow-l" data-direction="reverse"> 戻る </a>
 			</div>
-
+			
 			<!-- コンテンツここから-->
 			<div data-role="content" class="cont_shopProfile">
 				<dl>
@@ -594,3 +594,4 @@ console.log("getFile2: " + JSON.stringify(json));
 
 	</body>
 </html>
+

@@ -179,7 +179,7 @@
 					$("#content").html('<p class="qr_activation_txt">販促物(QRコード)が作成されておりません。</p>');
 				}else{
 					if(order_indexs_no == ''){
-						$("#order_indexs_text_no").html('有効化待ちの販促物はありません');
+						$("#order_indexs_text_no").thml('有効化待ちの販促物はありません');
 					}else{
 						$("#order_indexs_no").html(order_indexs_no);
 					}

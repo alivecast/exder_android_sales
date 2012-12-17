@@ -27,7 +27,7 @@
 				$.mobile.allowCrossDomainPages = true;
 			});
 
-			$(document).ready(function(){
+			$(document).ready(function() {
 				document.addEventListener("deviceready", onDeviceReady, false);
 			});
 
@@ -42,13 +42,15 @@
 				setLocalStorage('before', 'show_item.html');
 				$("#backb").attr("href", 'show_item_index.html');
 				// バックボタン設定
-				document.addEventListener("backbutton", function(){
+				document.addEventListener("backbutton", function() {
 					window.location.href = 'show_item_index.html';
 				}, false);
 				// メニューボタン設定 (fixedToolbarsの画面タップによる表示非表示を抑制）
-				$("[data-role=header]").fixedtoolbar({ tapToggle: false });
+				$("[data-role=header]").fixedtoolbar({
+					tapToggle : false
+				});
 				$('#nav').css('display', 'block');
-				document.addEventListener("menubutton", function(){
+				document.addEventListener("menubutton", function() {
 					if ($('#nav').is(':visible')) {
 						$('#nav').css('display', 'none');
 					} else {
@@ -61,21 +63,21 @@
 
 			// ログインチェック
 			function SettingOK(json) {
-				companyLoginCheck(json,LoginOK);
+				companyLoginCheck(json, LoginOK);
 			}
 
 			function LoginOK(json) {
 
 				// GETでJSON取得
-				var qr_id       = getLocalStorage('qr_id');
+				var qr_id = getLocalStorage('qr_id');
 				var qr_id_noact = getLocalStorage('qr_id_noact');
 				var order_latitude = null;
 				var order_longitude = null;
 				var get = {
-					qr_id: qr_id,
-					qr_id_noact: qr_id_noact,
-					order_latitude: order_latitude,
-					order_longitude: order_longitude
+					qr_id : qr_id,
+					qr_id_noact : qr_id_noact,
+					order_latitude : order_latitude,
+					order_longitude : order_longitude
 				}
 				console.log("getQuery: " + JSON.stringify(get));
 
@@ -88,27 +90,27 @@
 
 				// 商品情報を取得 -----------------------------------------------------------------------
 				function sendData(get) {
-console.log("getFile2: " + JSON.stringify(json));
+					console.log("getFile2: " + JSON.stringify(json));
 
-                    var url = json.http+'json/send_item_info.php';
+					var url = json.http + 'json/send_item_info.php';
 					var hash = {
-						qr_id: get.qr_id,
-						app_code: json.app_code,
-						app_ver: json.app_ver,
-						uid: json.uid,
-						act_key: json.act_key,
-						customer_id: json.customer_id,
-                        customer_key: json.customer_key,
-                        customer_mail_1: json.customer_mail_1
+						qr_id : get.qr_id,
+						app_code : json.app_code,
+						app_ver : json.app_ver,
+						uid : json.uid,
+						act_key : json.act_key,
+						customer_id : json.customer_id,
+						customer_key : json.customer_key,
+						customer_mail_1 : json.customer_mail_1
 					};
 
 					console.log("url: " + url);
 
 					$.ajax({
-						type: "POST",
-						url: url,
-						data:hash,
-						success: function(data){
+						type : "POST",
+						url : url,
+						data : hash,
+						success : function(data) {
 							// 商品詳細
 							// if (data != "" && data != {} && data != null) {
 							if (data.item_name) {
@@ -117,15 +119,15 @@ console.log("getFile2: " + JSON.stringify(json));
 								$('#content').css('display', 'block');
 
 								// 商品情報をセット
-								setData(data,get);
+								setData(data, get);
 							} else {
 								var message = 'もう一度QRコードを撮影してください';
-								var title   = '商品情報を取得できませんでした';
-								var button  = 'OK';
+								var title = '商品情報を取得できませんでした';
+								var button = 'OK';
 								navigator.notification.alert(message, alertCallBack2, title, button);
 							}
 						},
-						error: function(data) {
+						error : function(data) {
 							companyNetError();
 						}
 					});
@@ -143,8 +145,8 @@ console.log("getFile2: " + JSON.stringify(json));
 				}
 
 				// 商品情報をセット
-				function setData(params,get) {
-					console.log("setData : "+params['item_name']);
+				function setData(params, get) {
+					console.log("setData : " + params['item_name']);
 
 					setLocalStorage('order_params', JSON.stringify(params));
 					// 商品名
@@ -182,38 +184,38 @@ console.log("getFile2: " + JSON.stringify(json));
 						document.getElementById("non_carriage_price").innerHTML = non_carriage_price;
 					}
 
-					// アクティビティ情報
+					// アクティベーション情報
 					if (params['item_is_activate_flg'] == 'disable') {
 						var no_act = "";
 						// 入荷待ち
 						if (params.item_stock_sts == 'backstock') {
 							no_act = '【在庫なし】<br />※在庫を入力してから、QRコードを読み取って、有効化してください';
-						// 販売中止
+							// 販売中止
 						} else if (params.item_is_stop_flg == 'disable') {
 							no_act = '【販売中止】<br />※販売を再開してから、QRコードを読み取って、有効化してください';
-						// 販売終了
+							// 販売終了
 						} else if (params.item_stock_sts == 'discontinued') {
 							no_act = '【販売終了】<br />※販売期間を正しく設定してから、QRコードを読み取って、有効化してください';
-						// 在庫切れ
+							// 在庫切れ
 						} else if (params.item_stock_sts == 'nostock' || parseInt(params.item_stock_sts) < 1) {
 							no_act = '【在庫なし】<br />※在庫を入力してから、QRコードを読み取って、有効化してください';
 						}
 
-						if(no_act){
+						if (no_act) {
 							var data_change = '<div class="data_change"><div class="tl">';
 							data_change += no_act;
 							data_change += '</div></div>';
 							$("#data_change").html(data_change);
 
-						// カメラから撮ってない
-						}else if(get['qr_id_noact'] && params['qr_id'] == get['qr_id_noact']){
+							// カメラから撮ってない
+						} else if (get['qr_id_noact'] && params['qr_id'] == get['qr_id_noact']) {
 							var data_change = '<div class="order_cancel"><div class="tl">';
 							data_change += '【有効化待ち】<br />※QRコードを読み取って、有効化してください';
 							data_change += '</div></div>';
 							$("#data_change").html(data_change);
 						}
 
-					}else{
+					} else {
 						var data_change = '<div class="order_defined"><div class="tl">';
 						data_change += '【有効化済】すでに有効化しております';
 						data_change += '</div></div>';
@@ -225,8 +227,8 @@ console.log("getFile2: " + JSON.stringify(json));
 					item_stock_sts = '';
 					if (params['item_is_activate_flg'] == 'disable' || params['item_is_ready_flg'] == 'disable') {
 						item_stock_sts = '<p class="ico ico_backOrder">有効化待ち</p>';
-						if(get['qr_id_noact'] && params['qr_id'] == get['qr_id_noact']){
-						}else{
+						if (get['qr_id_noact'] && params['qr_id'] == get['qr_id_noact']) {
+						} else {
 							// アクティベート用 AC ITOU
 							$('.item_buy_button_act').css('display', 'block');
 							$('#back1').attr('href', 'barcode.html');
@@ -234,31 +236,30 @@ console.log("getFile2: " + JSON.stringify(json));
 
 					} else if (params.item_stock_sts == 'backstock') {
 						item_stock_sts = '<p class="ico ico_backOrder">入荷待ち</p>';
-					//	$('.item_buy_button_stop').css('display', 'block');
+						//	$('.item_buy_button_stop').css('display', 'block');
 
 					} else if (params.item_stock_sts == 'discontinued' || params.item_is_stop_flg == 'disable') {
 						item_stock_sts = '<p class="ico ico_discontinued">販売中止</p>';
-					//	$('.item_buy_button_start').css('display', 'block');
+						//	$('.item_buy_button_start').css('display', 'block');
 
 					} else if (params.item_stock_sts == 'nostock' || parseInt(params.item_stock_sts) < 1) {
 						item_stock_sts = '<p class="ico ico_backOrder">在庫切れ</p>';
-					//	$('.item_buy_button_stop').css('display', 'block');
+						//	$('.item_buy_button_stop').css('display', 'block');
 
 					} else if (parseInt(params.item_stock_sts) < 3 && parseInt(params.item_stock_sts) > 0) {
 						item_stock_sts = '<p class="ico ico_onlyRemaining">残りわずか</p>';
 						// アクティベート用 AC ITOU
-					//	$('.item_buy_button_stop').css('display', 'block');
+						//	$('.item_buy_button_stop').css('display', 'block');
 
-					}else{
+					} else {
 
 						item_stock_sts = '<p class="ico ico_onlyRemaining">販売中</p>';
-					//	$('.item_buy_button_stop').css('display', 'block');
+						//	$('.item_buy_button_stop').css('display', 'block');
 					}
 
 					if (item_stock_sts != '') {
 						document.getElementById("item_stock_sts").innerHTML = item_stock_sts;
 					}
-
 
 					// 商品説明
 					var shop_contact = '<div class="txt" style="font-weight:bold;">' + params.item_name + '</div><div class="txt">';
@@ -307,14 +308,13 @@ console.log("getFile2: " + JSON.stringify(json));
 
 				}
 
-			} // onSettingOk
+			}// onSettingOk
 
-
-			function onSettingNG(){
+			function onSettingNG() {
 				loginErr('ログインＩＤまたはパスワードが変更されました。再度、ログインを行ってください');
 			}
 
-			function loginErr(message){
+			function loginErr(message) {
 				title = '設定エラー';
 				button = 'OK';
 				navigator.notification.alert(message, alertCallBack(), title, button);
@@ -352,10 +352,10 @@ console.log("getFile2: " + JSON.stringify(json));
 				console.log("order GO ");
 				// 販売者情報の読み込み
 				var fname = 'setting';
-				getFile(fname,onOrderOK,onSettingNG);
+				getFile(fname, onOrderOK, onSettingNG);
 			}
 
-			function onOrderOK(json){
+			function onOrderOK(json) {
 				console.log("onOrderOK");
 
 				// GET:JSON取得
@@ -363,9 +363,9 @@ console.log("getFile2: " + JSON.stringify(json));
 				var order_latitude = null;
 				var order_longitude = null;
 				var get = {
-					qr_id: qr_id,
-					order_latitude: order_latitude,
-					order_longitude: order_longitude
+					qr_id : qr_id,
+					order_latitude : order_latitude,
+					order_longitude : order_longitude
 				}
 				var params = get;
 				params['order_time'] = parseInt(new Date() / 1000);
@@ -403,7 +403,9 @@ console.log("getFile2: " + JSON.stringify(json));
 			<!-- loading -->
 			<div class="loading" data-role="content" id="loading">
 				<div class="loading_box">
-					<p>しばらくおまちください</p>
+					<p>
+						しばらくおまちください
+					</p>
 					<div id="loadingImg" class="square_droid"></div>
 					<script>
 						// spin setting
@@ -421,8 +423,8 @@ console.log("getFile2: " + JSON.stringify(json));
 							hwaccel : false, // Whether to use hardware acceleration
 							className : 'spinner', // The CSS class to assign to the spinner
 							zIndex : 2e9//, // The z-index (defaults to 2000000000)
-						//	top : 'auto', // Top position relative to parent in px
-						//	left : 'auto' // Left position relative to parent in px
+							//	top : 'auto', // Top position relative to parent in px
+							//	left : 'auto' // Left position relative to parent in px
 						};
 						var target = document.getElementById('loadingImg');
 						var spinner = new Spinner(opts).spin(target);
@@ -430,47 +432,12 @@ console.log("getFile2: " + JSON.stringify(json));
 				</div>
 			</div>
 
-
 			<!-- content -->
 			<div class="cont_itemDetail" data-role="content" id="content" style="display:none;">
 				<div id="item_version_tete" ></div>
 
 				<!-- 商品情報変更 -->
 				<div id="data_change"></div>
-				<ul class="item_summary" data-role="listview">
-					<!-- 商品名 -->
-					<li class="item_name">
-						<h1 class="name" id="item_name"></h1>
-					</li>
-					<li class="item_img_price">
-						<div class="box2">
-							<!-- 商品画像 -->
-							<div class="box2_01 item_img">
-								<div class="inner" id="item_image">
-									<img src="#" width="150" height="150" alt="商品画像" id="item_image1"/>
-								</div>
-							</div>
-							<div class="box2_02 item_price">
-								<!-- 価格 -->
-								<dl class="price">
-									<dt>
-										価格(税込)
-									</dt>
-									<dd id="item_price"></dd>
-								</dl>
-								<!-- 送料 -->
-								<div id="shippingCost"></div>
-								<!-- 送料無料 -->
-								<div id="non_carriage_price"></div>
-								<!-- 在庫状況 -->
-								<div id="item_stock_sts"></div>
-							</div>
-						</div>
-					</li>
-
-					<!--<% end %>-->
-				</ul>
-
 				<ul class="item_summary" data-role="listview">
 					<!-- 商品説明 -->
 					<li class="shop_contact" id="shop_contact"></li>
@@ -486,7 +453,7 @@ console.log("getFile2: " + JSON.stringify(json));
 					<!-- 商品説明 -->
 					<li class="shop_contact" id="item_limit">販売期間：<span id="item_limit_start"></span>から<span id="item_limit_end"></span></li>
 					<li class="shop_contact">在庫：<span id="item_stock"></span></li>
-
+					
 					<li class="item_buy_1btn" id="item_buy_3">
 						<div class="item_buy btn_txt_ow item_buy_button item_buy_button_act" >
 							<p class="txt" style="color:#red;">*上記情報で間違いはないですか？<br />間違いなければ、下記ボタンをタップしてください</p>
@@ -494,6 +461,50 @@ console.log("getFile2: " + JSON.stringify(json));
 						</div>
 						<div class="item_buy btn_txt_ow item_buy_button item_buy_button_stop" >
 							<p class="txt" style="color:#red;">*当QRコードによる販売を一時中止したい場合は、<br />下記ボタンをタップしてください。</p>
+							<a class="btn_next"  type="button" onClick="order();">販売一時中止</a>
+						</div>
+						<div class="item_buy btn_txt_ow item_buy_button item_buy_button_start" >
+							<a class="btn_next" type="button" onClick="order();">販売再開</a>
+						</div>
+					</li>
+					<!--<% end %>-->
+				</ul>
+
+				<ul class="item_summary" data-role="listview">
+					<!-- 商品説明 -->
+					<li class="shop_contact" id="shop_contact"></li>
+					<!-- 販売者 -->
+					<!--
+					<li class="shop_neme">
+					<a href="#page_shopProfile" deta-transition="slide"> 販売者：<span id="company_name"></span>
+					<p class="txt">
+					販売者・特定商取引の詳細はこちら
+					</p> </a>
+					</li>
+					-->
+					<!-- 商品説明 -->
+					<li class="shop_contact" id="item_limit">
+						販売期間：<span id="item_limit_start"></span>から<span id="item_limit_end"></span>
+					</li>
+					<li class="shop_contact">
+						在庫：<span id="item_stock"></span>
+					</li>
+
+					<li class="item_buy_1btn" id="item_buy_3">
+						<div class="item_buy btn_txt_ow item_buy_button item_buy_button_act" >
+							<p class="txt" style="color:#red;">
+								*上記情報で間違いはないですか？
+								<br />
+								間違いなければ、下記ボタンをタップしてください
+							</p>
+							<a class="btn_next" type="button" onClick="order();">QRコードを有効化する</a>
+						</div>
+						<div class="item_buy btn_txt_ow item_buy_button item_buy_button_stop" >
+							<p class="txt" style="color:#red;">
+								*当QRコードによる販売を一時中止したい場合は、
+								<br />
+								下記ボタンをタップしてください。
+							</p>
 							<a class="btn_next"  type="button" onClick="order();">販売一時中止</a>
 						</div>
 						<div class="item_buy btn_txt_ow item_buy_button item_buy_button_start" >
@@ -591,6 +602,6 @@ console.log("getFile2: " + JSON.stringify(json));
 			</div><!-- /dr-footer -->
 		</div>
 
-
 	</body>
 </html>
+
