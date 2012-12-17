@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sites>
+<site>
+<name>New Connection</name>
+<source>workspace:/exorder.jp</source>
+<destination>aptanavfs://84bf0c5a-3b52-4512-add2-6722e47ea42c/</destination>
+</site>
+</sites>

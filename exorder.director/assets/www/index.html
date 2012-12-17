@@ -214,7 +214,7 @@
 			<div class="loading" data-role="content" id="loading">
 				<div class="loading_box">
 					<p>しばらくおまちください</p>
-					<div id="loadingImg" class="square"></div>
+					<div id="loadingImg" class="square_droid"></div>
 					<script>
 						// spin setting
 						var opts = {
@@ -276,10 +276,9 @@
 									<label for="login_id_flg">ログインIDを保持する</label>
 								</fieldset>
 							</li>
-
 							<li class="item_buy_1btn btn_txt_ow">
 								<div>
-									<input type="submit" value="ログイン" class="btn_next" onclick="return loginMain();" />
+									<a class="btn_next"  data-role="button" onclick="loginMain();">ログイン</a>
 								</div>
 							</li>
 						</ul>

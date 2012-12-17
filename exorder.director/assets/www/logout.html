@@ -10,16 +10,16 @@
 		<link rel="stylesheet" media="only screen and (max-device-width: 1024px)" href="ipad.css" type="text/css" />
 		<link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="iphone.css" type="text/css" />
 		-->
-		<link rel="stylesheet" href="js/jquery.mobile-1.2.0.min.css" type="text/css" />
 		<link rel="stylesheet" href="css/iphone.css" type="text/css" />
 
+		<link rel="stylesheet" href="js/jquery.mobile-1.2.0.min.css" type="text/css" />
 		<script type="text/javascript" charset="utf-8" src="js/jquery-1.8.2.min.js"></script>
 		<script type="text/javascript" charset="utf-8" src="js/base64.js"></script>
 		<script type="text/javascript" charset="utf-8" src="js/aes.js"></script>
 		<script type="text/javascript" charset="utf-8" src="js/main.js"></script>
 		<script type="text/javascript" charset="utf-8" src="js/company.js"></script>
 		<script type="text/javascript" charset="utf-8" src="js/cordova.js"></script>
-		<script type="text/javascript" charset="utf-8" src="js/spin.min.js"></script>
+		<script src="js/spin.min.js" type="text/javascript"></script>
 
 		<script type="text/javascript">
 			$(document).bind("mobileinit", function() {
@@ -47,8 +47,7 @@
 
 				var fname = 'setting';
 				delFile(fname);
-
-				// navigator.app.exitApp();
+				navigator.app.exitApp();
 				window.location.href = "index.html";
 				return false;
 			}
@@ -65,8 +64,9 @@
 					<p>
 						しばらくおまちください
 					</p>
-					<div id="loadingImg" class="square"></div>
+					<div id="loadingImg" class="square_droid"></div>
 					<script>
+						// spin setting
 						var opts = {
 							lines : 15, // The number of lines to draw
 							length : 28, // The length of each line

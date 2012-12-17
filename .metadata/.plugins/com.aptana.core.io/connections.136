@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<connections>
+<connection id="84bf0c5a-3b52-4512-add2-6722e47ea42c" type="ftp">
+<name>exorder.jp</name>
+<host>exorder.jp</host>
+<path>/httpdocs</path>
+<login>w850098</login>
+<passive>true</passive>
+</connection>
+<connection id="72b900c4-e946-4c68-85db-b16240de466c" type="workspace">
+<name>exorder.jp</name>
+<path>/exorder.jp</path>
+</connection>
+</connections>
