@@ -157,7 +157,7 @@
 						// 商品名
 						order_index += '<div class="box2_02 item_name">';
 						order_index += '<h1 class="name">' + orders[i].item_name + '</h1>';
-						order_index += '<div class="delivery"><span class="icon">価格</span><span>' + orders[i].item_price + '円</span>';
+						order_index += '<div class="delivery"><span class="icon">価格</span><span>' + currency(orders[i].item_price) + '円</span>';
 						order_index += '<span class="icon">在庫</span><span>' + orders[i].item_stock + '個</span></div>';
 						order_index += '</div>';
 						order_index += '</div></a></li></ul></dd>';

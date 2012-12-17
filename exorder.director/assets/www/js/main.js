@@ -353,6 +353,11 @@ function setLocalStorage(fname, value) {
 	window.localStorage.removeItem(fname);
 	window.localStorage.setItem(fname, value);
 }
+function removeLocalStorage(fname){
+	// ファイル名にprifix
+	fname += 'exorderdir';
+	window.localStorage.removeItem(fname);
+}
 function delFile(fname){
 	// ファイル名にprifix
 	fname += 'exorderdir';

@@ -14,6 +14,8 @@ public class exorder_director extends DroidGap {
         super.onCreate(savedInstanceState);
         // スプラッシュを表示するためのプロパティを設定
         super.setIntegerProperty("splashscreen", R.drawable.splash) ;
+        // 通信タイムアウトを延長する
+        super.setIntegerProperty("loadUrlTimeoutValue", 60000);
         // 第2引数に表示する時間をミリ秒で指定
         super.loadUrl("file:///android_asset/www/index.html", 3000);
     }

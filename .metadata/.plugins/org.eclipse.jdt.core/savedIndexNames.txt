@@ -1,7 +1,5 @@
 INDEX VERSION 1.126+/Users/alivecast/Documents/ws_droid_sales/.metadata/.plugins/org.eclipse.jdt.core
 1377232091.index
-905249069.index
-1644702008.index
 101456507.index
 963260039.index
 1065745633.index
